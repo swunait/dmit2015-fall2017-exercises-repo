@@ -36,13 +36,19 @@ public class AccountTest {
 		
 		System.out.println(currentAccount);
 		
-		
 		// check the account holder name "George"
-		// assertEquals("George", currentAccount.getName());
-		// check the interest rate is 1.5
-		// check the balance is 
+		assertEquals("George", currentAccount.getName());
+		// check the annual interest rate is 1.5
+		assertEquals(1.5, currentAccount.getAnnualInterestRate(), 0);
+		// check the balance is 100+120-11 = 209
+		assertEquals(209, currentAccount.getBalance(), 0);
 		// check the number of transaction is 6
+		assertEquals(6, currentAccount.getTransactions().size());		
 		// check all 3 withdraw transaction
+		Transaction transaction1 = currentAccount.getTransactions().get(0);
+		assertEquals(30, transaction1.getAmount(), 0 );
+		assertEquals(130, transaction1.getBalance(), 0);
+		assertEquals("from mom", transaction1.getDescription() );
 		// check all 3 deposit transaction
 	}
 
