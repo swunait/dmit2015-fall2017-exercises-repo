@@ -25,11 +25,21 @@
          data source, this example data source is just for development and testing! -->
       <!-- The datasource is deployed as WEB-INF/dmit2015-fall2017-exercises-ds.xml, you
          can find it in the source at src/main/webapp/WEB-INF/dmit2015-fall2017-exercises-ds.xml -->
-      <jta-data-source>java:jboss/datasources/dmit2015-fall2017-exercisesDS</jta-data-source>
+      <jta-data-source>java:jboss/datasources/chinookDS</jta-data-source>
+      <class>chinook.entity.Album</class>
+      <class>chinook.entity.Artist</class>
+      <class>chinook.entity.Customer</class>
+      <class>chinook.entity.Employee</class>
+      <class>chinook.entity.Genre</class>
+      <class>chinook.entity.Invoice</class>
+      <class>chinook.entity.InvoiceLine</class>
+      <class>chinook.entity.MediaType</class>
+      <class>chinook.entity.Playlist</class>
+      <class>chinook.entity.Track</class>
       <properties>
          <!-- Properties for Hibernate -->
-         <property name="hibernate.hbm2ddl.auto" value="create-drop" />
-         <property name="hibernate.show_sql" value="false" />
+<!--          <property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
+<!--          <property name="hibernate.show_sql" value="false" /> -->
       </properties>
    </persistence-unit>
 </persistence>
