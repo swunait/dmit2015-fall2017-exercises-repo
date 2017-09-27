@@ -1,0 +1,1 @@
+put your EJB classes in this package

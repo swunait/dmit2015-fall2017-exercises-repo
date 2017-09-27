@@ -15,16 +15,15 @@ public class ArtistController {
 	@Inject
 	private ArtistRepository artistRepository;
 	
-//	private List<Artist> artists;	// getter
+	private List<Artist> artists;
 	
-//	@PostConstruct
-//	void init() {
-//		artists = artistRepository.findAll();
-//	}
+	@PostConstruct
+	void init() {
+		artists = artistRepository.findAll();
+	}
 
 	public List<Artist> getArtists() {
-//		return artists;
-		return artistRepository.findAll();
+		return artists;
 	}
 	
 }
