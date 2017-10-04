@@ -6,6 +6,7 @@
     template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <h1>JSF DataTable</h1>
+        
         <h:dataTable value="#{artistController.artists}" var="currentArtist">
         	<h:column>
         		<h:outputText value="#{currentArtist.artistId}" />

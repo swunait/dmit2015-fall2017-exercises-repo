@@ -1,0 +1,77 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"  
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/WEB-INF/templates/bootsfaces-dashboard.xhtml">
+	
+	<ui:param name="title" value="Chinook - All Customers" />
+	
+	<ui:define name="externalstyles">
+	</ui:define>
+	
+	<ui:define name="internalstyles">
+	</ui:define>
+
+	<ui:define name="maincontent">
+		<h1>List of Customer</h1>
+				
+		<b:messages id="messages"></b:messages>		
+		
+		<h:form>
+			<b:dataTable value="#{customerController.customers}" var="customer">
+				<b:dataTableColumn>
+					<f:facet name="header">ID</f:facet>
+					<b:navCommandLink outcome="customerDetail.xhtml">
+						<f:param name="id" value="#{customer.customerId}"></f:param>
+						#{customer.customerId}
+					</b:navCommandLink>
+				</b:dataTableColumn>
+				<b:dataTableColumn value="#{customer.firstName}">
+				</b:dataTableColumn>
+				<b:dataTableColumn value="#{customer.lastName}">
+				</b:dataTableColumn>	
+				<b:dataTableColumn value="#{customer.company}">
+				</b:dataTableColumn>		
+				<b:dataTableColumn>
+					<f:facet name="header">Action</f:facet>
+					<b:navCommandLink outcome="customerDetail.xhtml">
+						<f:param name="id" value="#{customer.customerId}"></f:param>
+						view detail
+					</b:navCommandLink>
+				</b:dataTableColumn>										
+			</b:dataTable>
+			
+			<!-- 				<b:dataTableColumn value="#{customer.city}"> -->
+<!-- 				</b:dataTableColumn>			 -->
+<!-- 				<b:dataTableColumn value="#{customer.state}"> -->
+<!-- 				</b:dataTableColumn>		 -->
+<!-- 				<b:dataTableColumn value="#{customer.country}"> -->
+<!-- 				</b:dataTableColumn>		 -->
+<!-- 				<b:dataTableColumn value="#{customer.postalCode}"> -->
+<!-- 				</b:dataTableColumn>		 -->
+<!-- 				<b:dataTableColumn value="#{customer.phone}"> -->
+<!-- 				</b:dataTableColumn>		 -->
+<!-- 				<b:dataTableColumn value="#{customer.fax}"> -->
+<!-- 				</b:dataTableColumn>		 -->
+<!-- 				<b:dataTableColumn value="#{customer.email}"> -->
+<!-- 				</b:dataTableColumn>		 -->
+<!-- 				<b:dataTableColumn > -->
+<!-- 					<f:facet name="header"> -->
+<!-- 						Sales Rep -->
+<!-- 					</f:facet> -->
+<!-- 					<h:outputText value="#{customer.employee.firstName} #{customer.employee.lastName}" /> -->
+<!-- 				</b:dataTableColumn>		 -->
+		</h:form>
+		
+	</ui:define>
+
+</ui:composition>

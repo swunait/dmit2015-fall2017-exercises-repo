@@ -26,12 +26,14 @@
    <datasource jndi-name="java:jboss/datasources/dmit2015-chinook-exercises-swuTestDS"
       pool-name="dmit2015-chinook-exercises-swu-test" enabled="true"
       use-java-context="true">
-      <connection-url>jdbc:h2:mem:dmit2015-chinook-exercises-swu-test;DB_CLOSE_DELAY=-1</connection-url>
-      <driver>h2</driver>
-      <security>
-         <user-name>sa</user-name>
-         <password>sa</password>
-      </security>
+      
+      <connection-url>jdbc:mysql://localhost:3306/Chinook</connection-url>
+        <driver>mysql</driver>
+        <security>
+            <user-name>dmit2015</user-name>
+            <password>Password2015</password>
+        </security>
+   
    </datasource>
 </datasources>
  
