@@ -59,6 +59,5 @@ public class CustomerController {
 	public Customer getCurrentSelectedCustomer() {
 		return currentSelectedCustomer;
 	}
-	
-	
+		
 }
