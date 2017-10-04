@@ -1,0 +1,63 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/WEB-INF/templates/bootsfaces-dashboard.xhtml">
+	
+	<ui:param name="title" value="Chinook - Invoice Detail" />
+	
+	<ui:define name="externalstyles">
+	</ui:define>
+	
+	<ui:define name="internalstyles">
+	</ui:define>
+
+	<ui:define name="maincontent">
+		<f:metadata>
+			<f:viewParam name="id" value="#{invoiceController.currentSelectedInvoiceId}" />
+			<f:event listener="#{invoiceController.findInvoice()}" type="preRenderView" />
+		</f:metadata>
+	
+		<b:messages id="messages" />
+	
+		<b:form id="invoiceForm">
+			<b:dataTable value="#{invoiceController.currentSelectedInvoice.invoiceLines}" var="item">
+				<b:dataTableColumn>
+					<f:facet name="header">Track ID</f:facet>
+					<h:outputText value="#{item.track.trackId}" />
+				</b:dataTableColumn>
+				<b:dataTableColumn>
+					<f:facet name="header">Track Name</f:facet>
+					<h:outputText value="#{item.track.name}" />
+				</b:dataTableColumn>
+				<b:dataTableColumn>
+					<f:facet name="header">Unit Price</f:facet>
+					<h:outputText value="#{item.unitPrice}">
+						<f:convertNumber type="currency"/>
+					</h:outputText>									
+				</b:dataTableColumn>
+				<b:dataTableColumn>
+					<f:facet name="header">Qty</f:facet>
+					<h:outputText value="#{item.quantity}" />
+				</b:dataTableColumn>
+				<b:dataTableColumn>
+					<f:facet name="header">Extended Price</f:facet>
+					<h:outputText value="#{item.unitPrice * item.quantity}">
+						<f:convertNumber type="currency"/>
+					</h:outputText>
+				</b:dataTableColumn>
+			</b:dataTable>
+		</b:form>	
+	
+				
+	</ui:define>
+
+</ui:composition>

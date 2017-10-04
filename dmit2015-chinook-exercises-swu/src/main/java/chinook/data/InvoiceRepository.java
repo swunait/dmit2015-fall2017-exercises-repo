@@ -8,5 +8,12 @@ public class InvoiceRepository extends AbstractJpaRepository<Invoice> {
 	public InvoiceRepository() {
 		super(Invoice.class);
 	}
+	
+	public Invoice findOne(int invoiceId) {
+		return getEntityManager().createQuery(
+"SELECT inv FROM Invoice inv JOIN FETCH inv.invoiceLines WHERE inv.invoiceId = :idValue", Invoice.class)
+			.setParameter("idValue", invoiceId)	
+			.getSingleResult();
+	}
 
 }

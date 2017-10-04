@@ -44,23 +44,11 @@
 						<f:convertDateTime pattern="yyyy-MM-dd" />
 					</h:outputText>
 				</b:dataTableColumn>	
-				<b:dataTableColumn value="#{invoice.billingAddress}">
-				</b:dataTableColumn>			
-				<b:dataTableColumn value="#{invoice.billingCity}">
-				</b:dataTableColumn>	
-				<b:dataTableColumn value="#{invoice.billingState}">
-				</b:dataTableColumn>	
-				<b:dataTableColumn value="#{invoice.billingCountry}">
-				</b:dataTableColumn>		
-				<b:dataTableColumn value="#{invoice.billingPostalCode}">
-				</b:dataTableColumn>
 				<b:dataTableColumn>
-					<f:facet name="header">
-						Invoice Total
-					</f:facet>
-					<h:outputText value="#{invoice.total}">
-						<f:convertNumber type="currency" />
-					</h:outputText>
+					<b:navCommandLink outcome="invoiceDetail.xhtml">
+						<f:param name="id" value="#{invoice.invoiceId}" />
+						view detail
+					</b:navCommandLink>
 				</b:dataTableColumn>
 			</b:dataTable>
 		</h:form>
