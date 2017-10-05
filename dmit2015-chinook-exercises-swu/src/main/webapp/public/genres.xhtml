@@ -31,7 +31,33 @@
 				<b:dataTableColumn value="#{genre.genreId}">
 				</b:dataTableColumn>
 				<b:dataTableColumn value="#{genre.name}">
-				</b:dataTableColumn>				
+				</b:dataTableColumn>		
+				<b:dataTableColumn>
+					<f:facet name="header">Action</f:facet>
+					<b:navCommandLink outcome="tracksByGenre.xhtml">
+						view tracks
+						<f:param name="id" value="#{genre.genreId}" />
+						<f:param name="genreName" value="#{genre.name}" />						
+					</b:navCommandLink>
+				</b:dataTableColumn>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+						
 			</b:dataTable>
 		</h:form>
 		

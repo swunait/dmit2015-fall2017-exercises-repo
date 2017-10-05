@@ -1,0 +1,85 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"  
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/WEB-INF/templates/bootsfaces-dashboard.xhtml">
+	
+	<ui:param name="title" value="Chinook - Tracks By Genre" />
+	
+	<ui:define name="externalstyles">
+	</ui:define>
+	
+	<ui:define name="internalstyles">
+	</ui:define>
+
+	<ui:define name="maincontent">
+		<f:metadata>
+			<f:viewParam name="id" 
+				value="#{trackController.currentSelectedGenreId}" />
+			<f:event listener="#{trackController.findTracksByGenre()}" 
+				type="preRenderView" />			
+		</f:metadata>
+		<h1>Tracks for #{param.genreName}</h1>
+				
+		<b:messages id="messages"></b:messages>		
+		
+		<h:form>
+			<b:dataTable value="#{trackController.tracksByGenre}" var="track"
+				rendered="#{not empty trackController.tracksByGenre}">
+				<b:dataTableColumn value="#{track.trackId}">
+				</b:dataTableColumn>
+				<b:dataTableColumn value="#{track.name}">
+				</b:dataTableColumn>	
+				<b:dataTableColumn value="#{track.album.title}">
+				</b:dataTableColumn>				
+				<b:dataTableColumn value="#{track.genre.name}">
+					<f:facet name="header">
+						Genre
+					</f:facet>
+				</b:dataTableColumn>	
+				<b:dataTableColumn value="#{track.mediaType.name}">
+					<f:facet name="header">
+						Media
+					</f:facet>
+				</b:dataTableColumn>	
+				<b:dataTableColumn value="#{track.composer}">
+				</b:dataTableColumn>	
+				<b:dataTableColumn>
+					<f:facet name="header">
+						Milliseconds
+					</f:facet>
+					<h:outputText value="#{track.milliseconds}">
+						<f:convertNumber type="number" />
+					</h:outputText>
+				</b:dataTableColumn>	
+				<b:dataTableColumn >
+					<f:facet name="header">
+						Bytes
+					</f:facet>
+					<h:outputText value="#{track.bytes}">
+						<f:convertNumber type="number" />
+					</h:outputText>
+				</b:dataTableColumn>	
+				<b:dataTableColumn>
+					<f:facet name="header">
+						Unit Price
+					</f:facet>
+					<h:outputText value="#{track.unitPrice}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</b:dataTableColumn>	
+			</b:dataTable>
+		</h:form>
+		
+	</ui:define>
+
+</ui:composition>
