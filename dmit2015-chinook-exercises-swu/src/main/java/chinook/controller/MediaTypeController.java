@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import chinook.data.MediaTypeRepository;
 import chinook.model.MediaType;
+import chinook.report.MediaTypeSales;
 
 @Model
 public class MediaTypeController {
@@ -25,5 +26,24 @@ public class MediaTypeController {
 	public List<MediaType> getMediaTypes() {
 		return mediaTypes;
 	}
+	
+	public List<MediaTypeSales> retrieveMediaTypeSales() {
+		return mediaTypeRepository.findMediaTypeSales();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
