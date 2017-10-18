@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import chinook.data.GenreRepository;
 import chinook.model.Genre;
+import chinook.report.GenreSales;
 
 @Model
 public class GenreController {
@@ -25,5 +26,21 @@ public class GenreController {
 	public List<Genre> getGenres() {
 		return genres;
 	}
+	
+	public List<GenreSales> retreiveGenreSales() {
+		return genreRepository.findGenreSales();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
