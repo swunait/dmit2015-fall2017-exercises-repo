@@ -3,6 +3,8 @@ package chinook.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 
 /**
  * The persistent class for the Artist database table.
@@ -18,6 +20,7 @@ public class Artist implements Serializable {
 	@Column(name="ArtistId")
 	private int artistId;
 
+	@NotBlank(message="Artist Name value is required.")
 	@Column(name="Name")
 	private String name;
 

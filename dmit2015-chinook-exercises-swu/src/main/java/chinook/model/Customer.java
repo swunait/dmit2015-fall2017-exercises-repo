@@ -2,6 +2,10 @@ package chinook.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+
 import java.util.List;
 
 
@@ -31,6 +35,7 @@ public class Customer implements Serializable {
 	@Column(name="Country")
 	private String country;
 
+	@Email(message="Email is not be a valid email address.")
 	@Column(name="Email")
 	private String email;
 
@@ -40,6 +45,7 @@ public class Customer implements Serializable {
 	@Column(name="FirstName")
 	private String firstName;
 
+	@Length(min=2, max=20, message="Last Name must contain 2 to 20 characters in length.")
 	@Column(name="LastName")
 	private String lastName;
 
