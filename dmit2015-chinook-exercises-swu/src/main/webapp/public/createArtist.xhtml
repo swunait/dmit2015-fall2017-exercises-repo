@@ -25,9 +25,13 @@
 			<h2>New Artist Details</h2>
 		</b:jumbotron>
 		<b:messages id="messages" />
-		<b:form>
+		<b:form enctype="multipart/form-data">
 			<b:inputText id="artistName" placeholder="enter new artist name"
 				value="#{artistController.artistName}" />
+			
+			<h:outputLabel value="Picture:" for="picture" />	
+			<o:inputFile id="picture" value="#{artistController.uploadedFile}" />	
+						
 			<b:commandButton value="Submit"
 				actionListener="#{artistController.createNewArtist()}"
 				ajax="true" update="messages artistName"

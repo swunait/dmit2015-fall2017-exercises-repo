@@ -23,6 +23,9 @@ public class Artist implements Serializable {
 	@NotBlank(message="Artist Name value is required.")
 	@Column(name="Name")
 	private String name;
+	
+	@Column(name="Picture")
+	private byte[] picture;	// +getter +setter
 
 	public Artist() {
 	}
@@ -41,6 +44,15 @@ public class Artist implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	
+	public byte[] getPicture() {
+		return picture;
+	}
+
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
 	}
 
 	@Override

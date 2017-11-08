@@ -35,6 +35,16 @@
 						Artist Name
 					</f:facet>
 				</b:dataTableColumn>
+				
+				<b:dataTableColumn label="Picture">
+					<o:graphicImage value="#{artist.picture}" 
+						rendered="#{not empty artist.picture}"
+						height="400px"
+						width="400px"
+						dataURI="true" />
+				</b:dataTableColumn>
+				
+				
 				<b:dataTableColumn>
 					<f:facet name="header">
 						Albums

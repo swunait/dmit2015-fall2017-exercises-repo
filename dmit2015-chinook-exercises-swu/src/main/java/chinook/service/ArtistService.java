@@ -12,9 +12,10 @@ public class ArtistService {
 	@Inject
 	private ArtistRepository artistRepository;
 	
-	public void createArtist(String artistName) {
+	public void createArtist(String artistName, byte[] picture) {
 		Artist currentArtist = new Artist();
 		currentArtist.setName(artistName);
+		currentArtist.setPicture(picture);
 		createArtist(currentArtist);
 	}
 	

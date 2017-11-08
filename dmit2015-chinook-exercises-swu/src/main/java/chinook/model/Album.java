@@ -21,6 +21,9 @@ public class Album implements Serializable {
 
 	@Column(name="Title")
 	private String title;
+	
+	@Column(name="Picture")
+	private byte[] picture;	// +getter +setter
 
 	//bi-directional many-to-one association to Artist
 	@ManyToOne
