@@ -1,11 +1,14 @@
 package chinook.controller;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
 import org.omnifaces.util.Messages;
@@ -13,8 +16,10 @@ import org.omnifaces.util.Messages;
 import chinook.data.InvoiceRepository;
 import chinook.model.Invoice;
 
-@Model
-public class InvoiceController {
+@SuppressWarnings("serial")
+@Named
+@ViewScoped
+public class InvoiceController implements Serializable {
 	
 	private Integer currentSelectedCustomerId;	// +getter +setter
 	private List<Invoice> invoicesByCustomer;	// +getter
@@ -100,5 +105,39 @@ public class InvoiceController {
 		return invoicesByCustomer;
 	}
 	
+
+	private Date startDate;						// +getter +setter
+	private Date endDate;						// +getter +setter
+	private List<Invoice> invoicesByDateRange;	// +getter
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 	
+	public List<Invoice> getInvoicesByDateRange() {
+		return invoicesByDateRange;
+	}
+
+	public void findAllInvoicesByDateRange() {
+		invoicesByDateRange = invoiceRepository.findAllByDateRange(startDate, endDate);
+		currentSelectedInvoice = null;
+		int resultCount = invoicesByDateRange.size();
+		if (invoicesByDateRange.size() == 0) {
+			Messages.addGlobalError("There are not invoices between{0} and {1}", startDate, endDate);
+		} else {
+			Messages.addGlobalInfo("We found {0} results.", resultCount);
+		}
+	}
 }

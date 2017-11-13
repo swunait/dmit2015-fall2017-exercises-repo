@@ -1,5 +1,6 @@
 package chinook.data;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -39,6 +40,15 @@ public class InvoiceRepository extends AbstractJpaRepository<Invoice> {
 			"SELECT inv FROM Invoice inv WHERE inv.customer.customerId = :customerIdValue", 
 			Invoice.class)
 			.setParameter("customerIdValue", customerId)
+			.getResultList();
+	}
+	
+	public List<Invoice> findAllByDateRange(Date startDate, Date endDate) {
+		return getEntityManager().createQuery(
+			"SELECT i FROM Invoice i WHERE i.invoiceDate BETWEEN :startDateValue AND :endDateValue",
+			Invoice.class)
+			.setParameter("startDateValue", startDate)
+			.setParameter("endDateValue", endDate)
 			.getResultList();
 	}
 }
