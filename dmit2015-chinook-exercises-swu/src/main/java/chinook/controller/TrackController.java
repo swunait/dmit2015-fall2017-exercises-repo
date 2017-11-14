@@ -1,44 +1,92 @@
 package chinook.controller;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
-import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
+import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 
-import chinook.data.TrackRepository;
-import chinook.model.Genre;
 import chinook.model.Track;
+import chinook.service.TrackService;
 
-@Model
-public class TrackController {
+@SuppressWarnings("serial")
+@Named
+@ViewScoped
+public class TrackController implements Serializable {
 
 	@Inject
-	private TrackRepository trackRepository;
+	private Logger log;
 	
-	private List<Track> tracks;
+	@Inject
+	private TrackService trackService;
+	
+	private List<Track> tracks;							// +getter
+
+	private List<Track> tracksByGenre;					// +getter
+
+	private Track currentNewTrack = new Track();		// +getter +setter
+	private Integer currentSelectedAlbumId;				// +getter +setter
+	private Integer currentSelectedMediaTypeId;			// +getter +setter
+	private Integer currentSelectedGenreId;				// +getter +setter
 	
 	@PostConstruct
 	void init() {
-		tracks = trackRepository.findAll();
+		tracks = trackService.findAll();
 	}
 
 	public List<Track> getTracks() {
 		return tracks;
 	}
 	
-	private List<Track> tracksByGenre;	// getter
-	private int currentSelectedGenreId;	// getter/setter
-//	private Genre currentSelectedGenre;	// getter
+
+	public List<Track> getTracksByGenre() {
+		return tracksByGenre;
+	}
 	
+	public Track getCurrentNewTrack() {
+		return currentNewTrack;
+	}
+
+	public void setCurrentNewTrack(Track currentNewTrack) {
+		this.currentNewTrack = currentNewTrack;
+	}
+	
+
+	public Integer getCurrentSelectedAlbumId() {
+		return currentSelectedAlbumId;
+	}
+
+	public void setCurrentSelectedAlbumId(Integer currentSelectedAlbumId) {
+		this.currentSelectedAlbumId = currentSelectedAlbumId;
+	}
+
+	public Integer getCurrentSelectedMediaTypeId() {
+		return currentSelectedMediaTypeId;
+	}
+
+	public void setCurrentSelectedMediaTypeId(Integer currentSelectedMediaTypeId) {
+		this.currentSelectedMediaTypeId = currentSelectedMediaTypeId;
+	}
+
+	public Integer getCurrentSelectedGenreId() {
+		return currentSelectedGenreId;
+	}
+
+	public void setCurrentSelectedGenreId(Integer currentSelectedGenreId) {
+		this.currentSelectedGenreId = currentSelectedGenreId;
+	}
+
 	public void findTracksByGenre() {
-		if( !FacesContext.getCurrentInstance().isPostback() ) {
+		if( !Faces.isPostback() ) {
 			// verify that a valid genreId was set
 			if( currentSelectedGenreId > 0) {
-				tracksByGenre = trackRepository.findAllByGenreId(currentSelectedGenreId);
+				tracksByGenre = trackService.findAllByGenreId(currentSelectedGenreId);
 				if( tracksByGenre.size() == 0 ) {
 					Messages.addGlobalInfo("There are no tracks for genreID {0}", 
 							currentSelectedGenreId);
@@ -49,35 +97,15 @@ public class TrackController {
 		}
 	}
 
-	public int getCurrentSelectedGenreId() {
-		return currentSelectedGenreId;
+	public void createNewTrack() {
+		try {
+			trackService.createTrack(currentNewTrack, currentSelectedAlbumId, currentSelectedMediaTypeId, currentSelectedGenreId);
+			Messages.addGlobalInfo("Create track was successful.");
+			currentNewTrack = new Track();
+		} catch(Exception e) {
+			Messages.addGlobalError("Create track was not successful");
+			log.info(e.getMessage());
+		}
 	}
-
-	public void setCurrentSelectedGenreId(int currentSelectedGenreId) {
-		this.currentSelectedGenreId = currentSelectedGenreId;
-	}
-
-	public List<Track> getTracksByGenre() {
-		return tracksByGenre;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 }

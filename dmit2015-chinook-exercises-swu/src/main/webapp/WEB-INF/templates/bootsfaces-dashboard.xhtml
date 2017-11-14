@@ -33,6 +33,18 @@
         <b:navBar brand="Chinook" brandHref="#" inverse="true" fixed="top" fluid="true">
             
             <b:navbarLinks pull="right">
+            	<b:dropMenu value="CRUD">
+	            	<b:navLink value="New Artist" outcome="/public/crud/createArtist.xhtml"></b:navLink>
+	            	<b:navLink value="New Album" outcome="/public/crud/createAlbum.xhtml"></b:navLink>
+	            	<b:navLink value="New Track" outcome="/public/crud/createTrack.xhtml"></b:navLink>
+	            </b:dropMenu>   
+            	<b:dropMenu value="Query">
+	            	<b:navLink value="Find One Invoice" outcome="/public/query/findInvoiceByInvoiceId.xhtml"></b:navLink>
+	            	<b:navLink value="Find Invoices By Customer" outcome="/public/query/findInvoiceByCustomer.xhtml"></b:navLink>
+	            	<b:navLink value="Find Invocies By Date Range" outcome="/public/query/findInvoiceByDateRange.xhtml"></b:navLink>
+	            	<b:navLink value="Find One Album" outcome="/public/query/findOneAlbum.xhtml"></b:navLink>
+	            </b:dropMenu>   
+	            
             	<h:form style="display:inline" styleClass="form-inline">
 		          <b:selectOneMenu value="#{theme.currentTheme}" style="width:180px;margin-top:8px"
 		            onchange="$('.theme-selector-button').click()">
