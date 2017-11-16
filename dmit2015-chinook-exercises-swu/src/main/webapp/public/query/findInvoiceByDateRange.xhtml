@@ -32,16 +32,18 @@
 		<b:form id="queryForm">
 			<b:row>
 				<b:column span="5">
-					<b:datepicker id="startDate"
+					<b:dateTimePicker id="startDate"
 						label="Start Date"
+						show-time="false"
 						value="#{invoiceController.startDate}">
-					</b:datepicker>
+					</b:dateTimePicker>
 				</b:column>
 				<b:column span="5">
-					<b:datepicker id="endDate"
+					<b:dateTimePicker id="endDate"
 						label="End Date"
+						show-time="false"
 						value="#{invoiceController.endDate}">
-					</b:datepicker>
+					</b:dateTimePicker>
 				</b:column>
 				<b:column span="1">
 					<b:commandButton value="Search"
