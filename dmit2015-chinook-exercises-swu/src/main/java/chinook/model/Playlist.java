@@ -2,7 +2,7 @@ package chinook.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -23,8 +23,11 @@ public class Playlist implements Serializable {
 	private String name;
 
 	//bi-directional many-to-many association to Track
-	@ManyToMany(mappedBy="playlists", fetch=FetchType.EAGER)
-	private List<Track> tracks;
+	@ManyToMany(cascade = {CascadeType.MERGE})
+	@JoinTable(name="PlaylistTrack",
+			joinColumns=@JoinColumn(name="PlaylistId", referencedColumnName="PlaylistId"),
+			inverseJoinColumns=@JoinColumn(name="TrackId", referencedColumnName="TrackId"))
+	private Set<Track> tracks;
 
 	public Playlist() {
 	}
@@ -45,11 +48,11 @@ public class Playlist implements Serializable {
 		this.name = name;
 	}
 
-	public List<Track> getTracks() {
+	public Set<Track> getTracks() {
 		return this.tracks;
 	}
 
-	public void setTracks(List<Track> tracks) {
+	public void setTracks(Set<Track> tracks) {
 		this.tracks = tracks;
 	}
 

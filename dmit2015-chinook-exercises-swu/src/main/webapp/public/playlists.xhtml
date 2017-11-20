@@ -36,50 +36,53 @@
 					<f:facet name="header">
 						Tracks
 					</f:facet>
+<f:verbatim>					
 					<b:dataTable value="#{playlist.tracks}" var="track">
 						<b:dataTableColumn value="#{track.trackId}">
-				</b:dataTableColumn>
-				<b:dataTableColumn value="#{track.name}">
-				</b:dataTableColumn>	
-				<b:dataTableColumn value="#{track.album.title}">
-				</b:dataTableColumn>				
-				<b:dataTableColumn value="#{track.genre.name}">
-					<f:facet name="header">
-						Genre
-					</f:facet>
-				</b:dataTableColumn>	
-				<b:dataTableColumn value="#{track.mediaType.name}">
-					<f:facet name="header">
-						Media
-					</f:facet>
-				</b:dataTableColumn>	
-				<b:dataTableColumn value="#{track.composer}">
-				</b:dataTableColumn>	
-				<b:dataTableColumn>
-					<f:facet name="header">
-						Milliseconds
-					</f:facet>
-					<h:outputText value="#{track.milliseconds}">
-						<f:convertNumber type="number" />
-					</h:outputText>
-				</b:dataTableColumn>	
-				<b:dataTableColumn >
-					<f:facet name="header">
-						Bytes
-					</f:facet>
-					<h:outputText value="#{track.bytes}">
-						<f:convertNumber type="number" />
-					</h:outputText>
-				</b:dataTableColumn>	
-				<b:dataTableColumn>
-					<f:facet name="header">
-						Unit Price
-					</f:facet>
-					<h:outputText value="#{track.unitPrice}">
-						<f:convertNumber type="currency" />
-					</h:outputText>
-				</b:dataTableColumn>
+						</b:dataTableColumn>
+						<b:dataTableColumn value="#{track.name}">
+						</b:dataTableColumn>	
+						<b:dataTableColumn value="#{track.album.title}">
+						</b:dataTableColumn>				
+						<b:dataTableColumn value="#{track.genre.name}">
+							<f:facet name="header">
+								Genre
+							</f:facet>
+						</b:dataTableColumn>	
+						<b:dataTableColumn value="#{track.mediaType.name}">
+							<f:facet name="header">
+								Media
+							</f:facet>
+						</b:dataTableColumn>	
+						<b:dataTableColumn value="#{track.composer}">
+						</b:dataTableColumn>	
+						<b:dataTableColumn>
+							<f:facet name="header">
+								Milliseconds
+							</f:facet>
+							<h:outputText value="#{track.milliseconds}">
+								<f:convertNumber type="number" />
+							</h:outputText>
+						</b:dataTableColumn>	
+						<b:dataTableColumn >
+							<f:facet name="header">
+								Bytes
+							</f:facet>
+							<h:outputText value="#{track.bytes}">
+								<f:convertNumber type="number" />
+							</h:outputText>
+						</b:dataTableColumn>	
+						<b:dataTableColumn>
+							<f:facet name="header">
+								Unit Price
+							</f:facet>
+							<h:outputText value="#{track.unitPrice}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
+						</b:dataTableColumn>
 					</b:dataTable>
+</f:verbatim>
+
 				</b:dataTableColumn>				
 			</b:dataTable>
 		</h:form>

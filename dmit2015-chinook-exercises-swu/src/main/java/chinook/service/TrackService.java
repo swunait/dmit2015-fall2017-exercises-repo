@@ -1,9 +1,11 @@
 package chinook.service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 
 import chinook.data.AlbumRepository;
 import chinook.data.GenreRepository;
@@ -29,6 +31,19 @@ public class TrackService {
 	@Inject
 	private GenreRepository genreRepository;
 	
+	@Inject
+	private Logger log;
+	
+	public Track findOne(int trackId) {
+		Track currentTrack = null;
+		try {
+			currentTrack = trackRepository.find(trackId);
+		} catch(NoResultException nre) {
+			currentTrack = null;
+		}
+		return currentTrack;
+	}
+	
 	public List<Track> findAll() {
 		return trackRepository.findAll();
 	}
@@ -37,11 +52,11 @@ public class TrackService {
 		return trackRepository.findAllByGenreId(genreId);
 	}
 	
-	private void createTrack(Track newTrack) {
+	public void createTrack(Track newTrack) {
 		try {
 			trackRepository.persist(newTrack);
 		} catch(Exception e) {
-			
+			log.info(e.getMessage());
 		}
 	}
 	
