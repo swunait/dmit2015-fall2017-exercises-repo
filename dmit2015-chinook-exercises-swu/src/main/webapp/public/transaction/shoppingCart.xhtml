@@ -1,0 +1,82 @@
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:p="http://primefaces.org/ui"  
+	xmlns:hf="http://highfaces.org" 
+	template="/WEB-INF/templates/bootsfaces-dashboard.xhtml">
+	
+	<ui:param name="title" value="Chinook - Shopping Cart" />
+	
+	<ui:define name="externalstyles">
+	</ui:define>
+	
+	<ui:define name="internalstyles">
+	</ui:define>
+
+	<ui:define name="maincontent">
+		<b:jumbotron>
+			<h1>Shopping Cart</h1>
+		</b:jumbotron>
+		
+		<b:messages id="messages" />
+		<p:outputPanel rendered="#{empty shoppingCartController.items}">
+			<h2>Your shopping cart is empty</h2>
+		</p:outputPanel>
+		
+		<p:outputPanel id="cartPanel" rendered="#{not empty shoppingCartController.items}">
+			<b:panel title="Shopping Cart Contents" collapsible="false">
+				<b:form id="shoppingCartForm">
+					<h2>Items in your Cart</h2>
+				
+					<b:dataTable id="shoppingCartTable"
+						value="#{shoppingCartController.items}"
+						var="singleItem">
+					
+						<b:dataTableColumn label="">
+							<b:commandButton icon="trash"
+								immediate="true"
+								actionListener="#{shoppingCartController.removeItem(singleItem)}"
+								ajax="true" update="cartPanel">							
+							</b:commandButton>
+						</b:dataTableColumn>
+					
+						<b:dataTableColumn label="Track Name" value="#{singleItem.track.name}">
+						</b:dataTableColumn>
+						
+						<b:dataTableColumn label="Album Title" value="#{singleItem.track.album.title}">
+						</b:dataTableColumn>
+						
+						<b:dataTableColumn label="Artist Name" value="#{singleItem.track.album.artist.name}">
+						</b:dataTableColumn>
+						
+						<b:dataTableColumn label="Qty">
+							<b:inputText value="#{singleItem.quantity}" size="2" update="shoppingCartTable">
+							</b:inputText>
+						</b:dataTableColumn>
+						
+						<b:dataTableColumn label="Unit Price" value="#{of:formatCurrency(singleItem.unitPrice, '$')}">
+						</b:dataTableColumn>
+						
+						<b:dataTableColumn label="Item Total" value="#{of:formatCurrency(singleItem.unitPrice * singleItem.quantity, '$')}">
+						</b:dataTableColumn>						
+						
+					</b:dataTable>
+				</b:form>
+			
+			
+			</b:panel>
+		</p:outputPanel>
+		
+				
+	</ui:define>
+
+</ui:composition>

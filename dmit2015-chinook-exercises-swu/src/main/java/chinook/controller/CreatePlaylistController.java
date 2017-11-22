@@ -39,8 +39,12 @@ public class CreatePlaylistController implements Serializable {
 		if (currrentTrack == null) {
 			Messages.addGlobalWarn("{0} is not a valid TrackId value.", currentSelectedTrackId);
 		} else {
-			tracks.add(currrentTrack);
-			Messages.addGlobalInfo("Add track was successful.");
+			if (tracks.add(currrentTrack) )
+				Messages.addGlobalInfo("Add track was successful.");
+			else
+				Messages.addGlobalInfo("Track is already in the playlist");
+			// clear the currentSelectedTrackId
+			currentSelectedTrackId = null;
 		}
 	}
 	

@@ -77,6 +77,13 @@
 						<f:convertNumber type="currency" />
 					</h:outputText>
 				</b:dataTableColumn>	
+				
+				<b:dataTableColumn label="Action">
+					<b:commandButton value="Add to Cart"
+						action="#{shoppingCartController.addItem(track)}"
+						ajax="false">
+					</b:commandButton>
+				</b:dataTableColumn>	
 			</b:dataTable>
 		</h:form>
 		

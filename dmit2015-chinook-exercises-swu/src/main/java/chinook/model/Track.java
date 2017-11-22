@@ -43,9 +43,9 @@ public class Track implements Serializable {
 	@Column(name="UnitPrice")
 	private BigDecimal unitPrice;
 
-	//bi-directional many-to-one association to InvoiceLine
-	@OneToMany(mappedBy="track")
-	private List<InvoiceLine> invoiceLines;
+//	//bi-directional many-to-one association to InvoiceLine
+//	@OneToMany(mappedBy="track")
+//	private List<InvoiceLine> invoiceLines;
 
 	//bi-directional many-to-one association to Album
 	@ManyToOne
@@ -126,27 +126,27 @@ public class Track implements Serializable {
 		this.unitPrice = unitPrice;
 	}
 
-	public List<InvoiceLine> getInvoiceLines() {
-		return this.invoiceLines;
-	}
-
-	public void setInvoiceLines(List<InvoiceLine> invoiceLines) {
-		this.invoiceLines = invoiceLines;
-	}
-
-	public InvoiceLine addInvoiceLine(InvoiceLine invoiceLine) {
-		getInvoiceLines().add(invoiceLine);
-		invoiceLine.setTrack(this);
-
-		return invoiceLine;
-	}
-
-	public InvoiceLine removeInvoiceLine(InvoiceLine invoiceLine) {
-		getInvoiceLines().remove(invoiceLine);
-		invoiceLine.setTrack(null);
-
-		return invoiceLine;
-	}
+//	public List<InvoiceLine> getInvoiceLines() {
+//		return this.invoiceLines;
+//	}
+//
+//	public void setInvoiceLines(List<InvoiceLine> invoiceLines) {
+//		this.invoiceLines = invoiceLines;
+//	}
+//
+//	public InvoiceLine addInvoiceLine(InvoiceLine invoiceLine) {
+//		getInvoiceLines().add(invoiceLine);
+//		invoiceLine.setTrack(this);
+//
+//		return invoiceLine;
+//	}
+//
+//	public InvoiceLine removeInvoiceLine(InvoiceLine invoiceLine) {
+//		getInvoiceLines().remove(invoiceLine);
+//		invoiceLine.setTrack(null);
+//
+//		return invoiceLine;
+//	}
 
 	public Album getAlbum() {
 		return this.album;
@@ -183,9 +183,31 @@ public class Track implements Serializable {
 	@Override
 	public String toString() {
 		return "Track [trackId=" + trackId + ", bytes=" + bytes + ", composer=" + composer + ", milliseconds="
-				+ milliseconds + ", name=" + name + ", unitPrice=" + unitPrice + ", invoiceLines=" + invoiceLines
+				+ milliseconds + ", name=" + name + ", unitPrice=" + unitPrice //+", invoiceLines=" + invoiceLines
 				+ ", album=" + album + ", genre=" + genre + ", mediaType=" + mediaType + ", playlists=" + playlists
 				+ "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + trackId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Track other = (Track) obj;
+		if (trackId != other.trackId)
+			return false;
+		return true;
 	}
 
 }
