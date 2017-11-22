@@ -39,7 +39,8 @@
 				
 					<b:dataTable id="shoppingCartTable"
 						value="#{shoppingCartController.items}"
-						var="singleItem">
+						var="singleItem"
+						class="shoppingCartTable">
 					
 						<b:dataTableColumn label="">
 							<b:commandButton icon="trash"
@@ -59,7 +60,7 @@
 						</b:dataTableColumn>
 						
 						<b:dataTableColumn label="Qty">
-							<b:inputText value="#{singleItem.quantity}" size="2" update="shoppingCartTable">
+							<b:inputText value="#{singleItem.quantity}" size="2" update="@(.shoppingCartTable)">
 							</b:inputText>
 						</b:dataTableColumn>
 						
