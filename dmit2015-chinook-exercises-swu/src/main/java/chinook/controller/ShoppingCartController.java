@@ -47,7 +47,9 @@ public class ShoppingCartController implements Serializable {
 		if (!items.add(item)) {
 			// Item is already in the shopping cart
 			// Get existing item and increment quantity by 1
-			InvoiceLine existingItem = items.stream().filter( singleItem -> singleItem.getInvoiceLineId() == item.getInvoiceLineId() ).findFirst().orElse(null);
+			InvoiceLine existingItem = items.stream().filter( 
+					singleItem -> singleItem.getTrack().getTrackId() == currentTrack.getTrackId() )
+					.findFirst().orElse(null);
 			if (existingItem != null) {
 				existingItem.setQuantity( existingItem.getQuantity() + 1);
 				Messages.addFlashGlobalInfo("Item quantity was updated");
