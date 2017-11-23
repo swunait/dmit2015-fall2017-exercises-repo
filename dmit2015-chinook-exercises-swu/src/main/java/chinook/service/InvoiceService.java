@@ -1,6 +1,7 @@
 package chinook.service;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +34,9 @@ public class InvoiceService {
 			throw new NoInvoiceLinesException("There are no items in the invoice");			
 		}
 		
+		// assign the invoiceDate and total
+		Date today = Calendar.getInstance().getTime();
+		newInvoice.setInvoiceDate( new Timestamp(today.getTime()) );
 		// calculate the invoice total
 		double total = 0;
 		for(InvoiceLine singleItem : items) {

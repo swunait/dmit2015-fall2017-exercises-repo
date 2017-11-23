@@ -28,6 +28,7 @@
 		</b:jumbotron>
 		
 		<b:messages id="messages" />
+		
 		<p:outputPanel rendered="#{empty shoppingCartController.items}">
 			<h2>Your shopping cart is empty</h2>
 		</p:outputPanel>
@@ -70,9 +71,9 @@
 						<b:dataTableColumn label="Item Total" value="#{of:formatCurrency(singleItem.unitPrice * singleItem.quantity, '$')}">
 						</b:dataTableColumn>						
 						
-					</b:dataTable>
-				</b:form>
+					</b:dataTable>		
 			
+				</b:form>
 			
 			</b:panel>
 		</p:outputPanel>

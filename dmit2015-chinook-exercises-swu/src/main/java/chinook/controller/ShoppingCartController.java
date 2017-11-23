@@ -1,19 +1,27 @@
 package chinook.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.NotNull;
 
 import org.omnifaces.el.functions.Numbers;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 
+import chinook.data.CustomerRepository;
+import chinook.exception.IllegalQuantityException;
+import chinook.exception.NoInvoiceLinesException;
+import chinook.model.Customer;
+import chinook.model.Invoice;
 import chinook.model.InvoiceLine;
 import chinook.model.Track;
+import chinook.service.InvoiceService;
 import chinook.service.TrackService;
 
 @SuppressWarnings("serial")
@@ -26,13 +34,36 @@ public class ShoppingCartController implements Serializable {
 	@Inject
 	private TrackService trackService;
 	
-	public String addItem() {	
+	@NotNull(message="TrackId value is required")
+	private Integer currentTrackId;						// +getter +setter
+	
+	private Integer currentSelectedCustomerId;			// +getter +setter
+	
+	@Inject
+	private CustomerRepository customerRepository;
+	
+	
+	@Inject
+	private InvoiceService invoiceService;
+	
+	public void addItemWithTrackId() {
+		Track currentTrack = trackService.findOne(currentTrackId);
+		if (currentTrack != null) {
+			addItem(currentTrack);	
+		} else {
+			Messages.addGlobalError("Invalid trackId {0}", currentTrackId);
+		}
+	}
+	
+	public String addItemWithTrackIdQueryParameter() {	
 		String trackIdParam = Faces.getRequestParameter("trackId");
 		if( trackIdParam != null && !trackIdParam.isEmpty() ) {
 			int trackId = Integer.parseInt(trackIdParam);
 			Track currentTrack = trackService.findOne(trackId);
 			if( currentTrack != null ) {
 				addItem(currentTrack);
+			} else {
+				Messages.addGlobalError("Invalid trackId {0}", currentTrackId);
 			}
 		}
 		return "/public/transaction/shoppingCart.xhtml?faces-redirect=true";
@@ -70,10 +101,53 @@ public class ShoppingCartController implements Serializable {
 		items.clear();
 	}
 
+	public void submitOrder() {
+		try {
+			int customerId = currentSelectedCustomerId;
+			Customer invoiceCustomer = customerRepository.find(customerId);
+			Invoice newInvoice = new Invoice();
+			newInvoice.setCustomer(invoiceCustomer);
+			newInvoice.setBillingAddress(invoiceCustomer.getAddress());
+			newInvoice.setBillingCity(invoiceCustomer.getCity());
+			newInvoice.setBillingCountry(invoiceCustomer.getCompany());
+			newInvoice.setBillingPostalCode(invoiceCustomer.getPostalCode());
+			newInvoice.setBillingState(invoiceCustomer.getState());
+			
+			int invoiceId = invoiceService.createInvoice(newInvoice, new ArrayList<>(items));
+			Messages.addGlobalInfo("Successfully created invoice #{0}", invoiceId);
+
+			// clear the customer selection
+			currentSelectedCustomerId = null;			
+			// empty the shopping cart
+			items.clear();			
+		} catch( NoInvoiceLinesException | IllegalQuantityException e ) {
+			Messages.addGlobalError(e.getMessage());
+		} catch( Exception e ) {
+			Messages.addGlobalError("Create invoice was not successful");
+		}
+	}
+	
 	public Set<InvoiceLine> getItems() {
 		return items;
 	}
 	
+	
+	public Integer getCurrentTrackId() {
+		return currentTrackId;
+	}
+
+	public void setCurrentTrackId(Integer currentTrackId) {
+		this.currentTrackId = currentTrackId;
+	}
+
+	public Integer getCurrentSelectedCustomerId() {
+		return currentSelectedCustomerId;
+	}
+
+	public void setCurrentSelectedCustomerId(Integer currentSelectedCustomerId) {
+		this.currentSelectedCustomerId = currentSelectedCustomerId;
+	}
+
 	public String getTotalPrice() {
 		double totalPrice = 0;
 		for(InvoiceLine item : items) {
