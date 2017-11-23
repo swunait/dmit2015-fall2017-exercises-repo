@@ -18,7 +18,6 @@ import chinook.data.CustomerRepository;
 import chinook.exception.IllegalQuantityException;
 import chinook.exception.NoInvoiceLinesException;
 import chinook.model.Customer;
-import chinook.model.Invoice;
 import chinook.model.InvoiceLine;
 import chinook.model.Track;
 import chinook.service.InvoiceService;
@@ -132,34 +131,13 @@ public class ShoppingCartController implements Serializable {
 					new ArrayList<>(items));
 			Messages.addGlobalInfo("Successfully created invoice #{0}", invoiceId);
 
-			// clear the customer selection
-			currentSelectedCustomerId = null;			
-			// empty the shopping cart
-			items.clear();			
-		} catch( NoInvoiceLinesException | IllegalQuantityException e ) {
-			Messages.addGlobalError(e.getMessage());
-		} catch( Exception e ) {
-			Messages.addGlobalError("Create invoice was not successful");
-		}
-	}
-	
-	public void oldSubmitOrder() {
-		try {
-			int customerId = currentSelectedCustomerId;
-			Customer invoiceCustomer = customerRepository.find(customerId);
-			Invoice newInvoice = new Invoice();
-			newInvoice.setCustomer(invoiceCustomer);
-			newInvoice.setBillingAddress(invoiceCustomer.getAddress());
-			newInvoice.setBillingCity(invoiceCustomer.getCity());
-			newInvoice.setBillingCountry(invoiceCustomer.getCompany());
-			newInvoice.setBillingPostalCode(invoiceCustomer.getPostalCode());
-			newInvoice.setBillingState(invoiceCustomer.getState());
-			
-			int invoiceId = invoiceService.createInvoice(newInvoice, new ArrayList<>(items));
-			Messages.addGlobalInfo("Successfully created invoice #{0}", invoiceId);
-
-			// clear the customer selection
-			currentSelectedCustomerId = null;			
+			// clear the form field values
+			currentSelectedCustomerId = null;
+			billingAddress = null;
+			billingCity = null;
+			billingState = null;
+			billingCountry = null;
+			billingPostalCode = null;
 			// empty the shopping cart
 			items.clear();			
 		} catch( NoInvoiceLinesException | IllegalQuantityException e ) {
