@@ -78,32 +78,55 @@
 				</b:dataTableColumn>						
 				
 			</b:dataTable>
+			
+		</b:form>
 
+		<b:form id="billingForm">
 			<b:selectOneMenu id="customers" 
 				label="Customer"
-				value="#{shoppingCartController.currentSelectedCustomerId}">
+				value="#{shoppingCartController.currentSelectedCustomerId}"
+				onchange="ajax:shoppingCartController.changeBillingInfo()" 
+				update="@form">
 				<f:selectItem itemValue="" itemLabel="Choose a customer" />
 				<f:selectItems value="#{customerController.customers}"
 					var="customer"
 					itemValue="#{customer.customerId}"
 					itemLabel="#{customer.lastName}, #{customer.firstName}" />				
-			</b:selectOneMenu>
+			</b:selectOneMenu>				
+			
+			<b:inputText id="address"
+				label="Billing Address"
+				value="#{shoppingCartController.billingAddress}">
+			</b:inputText>
+
+			<b:inputText id="city"
+				label="Billing City"
+				value="#{shoppingCartController.billingCity}">
+			</b:inputText>
+
+			<b:inputText id="state"
+				label="Billing State"
+				value="#{shoppingCartController.billingState}">
+			</b:inputText>
+			
+			<b:inputText id="country"
+				label="Billing Country"
+				value="#{shoppingCartController.billingCountry}">
+			</b:inputText>
+			
+			<b:inputText id="postalCode"
+				label="Billing Postal Code"
+				value="#{shoppingCartController.billingPostalCode}">
+			</b:inputText>			
 			
 			<b:commandButton value="Submit Invoice"
 				look="primary"
 				ajax="false" 
 				actionListener="#{shoppingCartController.submitOrder}">				
 			</b:commandButton>
-<f:verbatim>
-			
 
-</f:verbatim>			
-			
-	
-	
+
 		</b:form>
-			
-			
 				
 	</ui:define>
 

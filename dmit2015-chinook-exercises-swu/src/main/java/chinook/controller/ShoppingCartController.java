@@ -34,17 +34,33 @@ public class ShoppingCartController implements Serializable {
 	@Inject
 	private TrackService trackService;
 	
-	@NotNull(message="TrackId value is required")
+	@NotNull(message="TrackId field value is required")
 	private Integer currentTrackId;						// +getter +setter
 	
+	@NotNull(message="Customer field value selection is required")
 	private Integer currentSelectedCustomerId;			// +getter +setter
 	
 	@Inject
 	private CustomerRepository customerRepository;
 	
+	private String billingAddress;						// +getter +setter
+	private String billingCity;							// +getter +setter
+	private String billingState;						// +getter +setter
+	private String billingCountry;						// +getter +setter
+	private String billingPostalCode;					// +getter +setter
 	
 	@Inject
 	private InvoiceService invoiceService;
+	
+	public void changeBillingInfo() {
+		int customerId = currentSelectedCustomerId;
+		Customer invoiceCustomer = customerRepository.find(customerId);
+		billingAddress = invoiceCustomer.getAddress();
+		billingCity = invoiceCustomer.getCity();
+		billingState = invoiceCustomer.getState();
+		billingCountry = invoiceCustomer.getCountry();
+		billingPostalCode = invoiceCustomer.getPostalCode();
+	}
 	
 	public void addItemWithTrackId() {
 		Track currentTrack = trackService.findOne(currentTrackId);
@@ -105,6 +121,32 @@ public class ShoppingCartController implements Serializable {
 		try {
 			int customerId = currentSelectedCustomerId;
 			Customer invoiceCustomer = customerRepository.find(customerId);
+		
+			int invoiceId = invoiceService.createInvoice(
+					invoiceCustomer, 
+					billingAddress,
+					billingCity,
+					billingState,
+					billingCountry,
+					billingPostalCode,
+					new ArrayList<>(items));
+			Messages.addGlobalInfo("Successfully created invoice #{0}", invoiceId);
+
+			// clear the customer selection
+			currentSelectedCustomerId = null;			
+			// empty the shopping cart
+			items.clear();			
+		} catch( NoInvoiceLinesException | IllegalQuantityException e ) {
+			Messages.addGlobalError(e.getMessage());
+		} catch( Exception e ) {
+			Messages.addGlobalError("Create invoice was not successful");
+		}
+	}
+	
+	public void oldSubmitOrder() {
+		try {
+			int customerId = currentSelectedCustomerId;
+			Customer invoiceCustomer = customerRepository.find(customerId);
 			Invoice newInvoice = new Invoice();
 			newInvoice.setCustomer(invoiceCustomer);
 			newInvoice.setBillingAddress(invoiceCustomer.getAddress());
@@ -146,6 +188,47 @@ public class ShoppingCartController implements Serializable {
 
 	public void setCurrentSelectedCustomerId(Integer currentSelectedCustomerId) {
 		this.currentSelectedCustomerId = currentSelectedCustomerId;
+	}
+
+	
+	public String getBillingAddress() {
+		return billingAddress;
+	}
+
+	public void setBillingAddress(String billingAddress) {
+		this.billingAddress = billingAddress;
+	}
+
+	public String getBillingCity() {
+		return billingCity;
+	}
+
+	public void setBillingCity(String billingCity) {
+		this.billingCity = billingCity;
+	}
+
+	public String getBillingState() {
+		return billingState;
+	}
+
+	public void setBillingState(String billingState) {
+		this.billingState = billingState;
+	}
+
+	public String getBillingCountry() {
+		return billingCountry;
+	}
+
+	public void setBillingCountry(String billingCountry) {
+		this.billingCountry = billingCountry;
+	}
+
+	public String getBillingPostalCode() {
+		return billingPostalCode;
+	}
+
+	public void setBillingPostalCode(String billingPostalCode) {
+		this.billingPostalCode = billingPostalCode;
 	}
 
 	public String getTotalPrice() {
