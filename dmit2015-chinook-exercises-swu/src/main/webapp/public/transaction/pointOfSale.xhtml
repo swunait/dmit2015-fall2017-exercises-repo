@@ -43,41 +43,45 @@
 			</b:commandButton>
 			</div>
 			
+			<p:outputPanel id="cartPanel">
 		
-			<b:dataTable id="shoppingCartTable"
-				value="#{shoppingCartController.items}"
-				var="singleItem"
-				class="shoppingCartTable">
+				<b:dataTable id="shoppingCartTable"
+					value="#{shoppingCartController.items}"
+					var="singleItem"
+					class="shoppingCartTable">
+				
+					<b:dataTableColumn label="">
+						<b:commandButton icon="trash"
+							immediate="true"
+							actionListener="#{shoppingCartController.removeItem(singleItem)}"
+							ajax="true" 
+							update="posForm:cartPanel">							
+						</b:commandButton>
+					</b:dataTableColumn>
+				
+					<b:dataTableColumn label="Track Name" value="#{singleItem.track.name}">
+					</b:dataTableColumn>
+					
+					<b:dataTableColumn label="Album Title" value="#{singleItem.track.album.title}">
+					</b:dataTableColumn>
+					
+					<b:dataTableColumn label="Artist Name" value="#{singleItem.track.album.artist.name}">
+					</b:dataTableColumn>
+					
+					<b:dataTableColumn label="Qty">
+						<b:inputText value="#{singleItem.quantity}" size="2" update="@(.shoppingCartTable)">
+						</b:inputText>
+					</b:dataTableColumn>
+					
+					<b:dataTableColumn label="Unit Price" value="#{of:formatCurrency(singleItem.unitPrice, '$')}">
+					</b:dataTableColumn>
+					
+					<b:dataTableColumn label="Item Total" value="#{of:formatCurrency(singleItem.unitPrice * singleItem.quantity, '$')}">
+					</b:dataTableColumn>						
+					
+				</b:dataTable>
 			
-				<b:dataTableColumn label="">
-					<b:commandButton icon="trash"
-						immediate="true"
-						actionListener="#{shoppingCartController.removeItem(singleItem)}"
-						ajax="true" update="shoppingCartTable">							
-					</b:commandButton>
-				</b:dataTableColumn>
-			
-				<b:dataTableColumn label="Track Name" value="#{singleItem.track.name}">
-				</b:dataTableColumn>
-				
-				<b:dataTableColumn label="Album Title" value="#{singleItem.track.album.title}">
-				</b:dataTableColumn>
-				
-				<b:dataTableColumn label="Artist Name" value="#{singleItem.track.album.artist.name}">
-				</b:dataTableColumn>
-				
-				<b:dataTableColumn label="Qty">
-					<b:inputText value="#{singleItem.quantity}" size="2" update="@(.shoppingCartTable)">
-					</b:inputText>
-				</b:dataTableColumn>
-				
-				<b:dataTableColumn label="Unit Price" value="#{of:formatCurrency(singleItem.unitPrice, '$')}">
-				</b:dataTableColumn>
-				
-				<b:dataTableColumn label="Item Total" value="#{of:formatCurrency(singleItem.unitPrice * singleItem.quantity, '$')}">
-				</b:dataTableColumn>						
-				
-			</b:dataTable>
+			</p:outputPanel>			
 			
 		</b:form>
 
