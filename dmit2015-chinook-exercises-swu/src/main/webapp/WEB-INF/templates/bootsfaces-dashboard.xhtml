@@ -82,7 +82,7 @@
             
             <b:form>  
 		        <b:navbarLinks pull="right">
-		        	<b:navLink value="Sign In" outcome="/protected/dashboard" rendered="#{not sessionController.loggedIn}"></b:navLink>  
+		        	<b:navLink value="Sign In" outcome="/public/transaction/createPlaylist.xhtml" rendered="#{not sessionController.loggedIn}"></b:navLink>  
 		        			        	
 		       		<b:navCommandLink value="Logout #{sessionController.remoteUser}" action="#{sessionController.logout()}" 
 		       			rendered="#{sessionController.loggedIn}"></b:navCommandLink>	        
