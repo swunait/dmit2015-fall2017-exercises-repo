@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -48,6 +49,7 @@ public class ChinookWebAPI {
 	}
 	
 	@Path("genres/{id}")
+	@DELETE
 	public void deleteGenre(@PathParam("id") int genreId) {
 		genreService.deleteGenre(genreId);
 	}
