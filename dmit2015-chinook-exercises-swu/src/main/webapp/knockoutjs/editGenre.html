@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+			  
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+<title>Chinook - Edit Genre</title>
+</head>
+<body>
+
+<div class="container">
+	<h2>Edit Genre</h2>
+	
+	<div id="editor" class="section panel panel-primary">
+        <div class="panel-heading">
+            Edit Genre
+        </div>
+
+        <div class="panel-body">
+            <div class="form-group">
+                <label>Genre ID</label>
+                <span class="form-control" data-bind="text: genreId"></span>
+            </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input class="form-control" data-bind="value: name" />
+            </div>
+            <button class="btn btn-primary" data-bind="click: updateGenre">Update</button>
+            <button class="btn btn-danger" data-bind="click: deleteGenre">Delete</button>            
+            <button class="btn btn-default" onclick="handleCancelClick()" >Cancel</button>
+      </div>
+    </div>
+</div>
+
+<script>
+function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function handleCancelClick() {
+	window.location.href = "viewGenres.html";
+}
+
+function Genre(data) {
+	var self = this;
+	self.genreId = ko.observable(data.genreId);
+	self.name = data.name;
+}
+
+function GenreViewModel() {
+	var self = this;
+	var genreIdParameterValue = getParameterByName("genreId");
+	//alert( genreIdParameterValue );
+	self.genreId = ko.observable(genreIdParameterValue);
+	self.name = ko.observable("");
+
+	var chinookAPI = "/dmit2015-chinook-exercises-swu/rest/webapi/genres/" + genreIdParameterValue;
+	$.ajax(chinookAPI, {
+		//data: ko.toJSON( genreIdParameterValue ),
+		type: "GET",
+		contentType: "application/json",
+		success: function(result) { 
+			self.name(result.name);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			alert('Get error');
+		}
+	});
+	
+	self.editGenre = function(genre) {
+		var url = "editGenre.html?genreId=" + genre.genreId();
+		window.location.replace(url);
+	}
+	
+	self.updateGenre = function() {
+		var self = this;
+		
+		var chinookAPI = "/dmit2015-chinook-exercises-swu/rest/webapi/genres";
+		
+		$.ajax(chinookAPI, {
+			data: ko.toJSON( {genreId: self.genreId(), name: self.name() } ),
+			type: "PUT",
+			contentType: "application/json",
+			success: function(result) { 
+				window.location.href = "viewGenres.html";
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert('update error');
+			}
+		});
+		alert('updating genre');
+		
+	}
+	
+	self.deleteGenre = function() {
+		var result = confirm("Are you sure you want to delete this record?")
+		if (result == true ) {
+			var chinookAPI = "/dmit2015-chinook-exercises-swu/rest/webapi/genres/" + self.genreId();
+			$.ajax(chinookAPI, {
+				//data: ko.toJSON( self.genreId() ),
+				type: "DELETE",
+				contentType: "application/json",
+				success: function(result) { 
+					window.location.href = "viewGenres.html";
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert('Delete error');
+				}
+			});			
+		}
+	}
+}
+
+ko.applyBindings(new GenreViewModel());
+</script>
+
+</body>
+</html>

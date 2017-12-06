@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+			  
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+<title>Chinook - Genres</title>
+</head>
+<body>
+
+<div class="container">
+	<h2>Genre Listings</h2>
+	
+	<a href="createGenre.html" class="btn btn-primary">Create Genre</a>
+	
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>GenreID</th>
+				<th>Genre Name</th>
+				<th>Action</th>
+			</tr>	
+		</thead>
+		<tbody data-bind="foreach: genres">
+			<tr>
+				<td data-bind="text: genreId"></td>
+				<td data-bind="text: name"></td>
+				<td><a href="#" class="btn" data-bind="click: $parent.editGenre"><span class="glyphicon glyphicon-edit"></span>  edit</a></td>
+			</tr>	
+		</tbody>
+	</table>	
+</div>
+
+<script>
+function Genre(data) {
+	var self = this;
+	self.genreId = ko.observable(data.genreId);
+	self.name = data.name;
+}
+
+function GenresViewModel() {
+	var self = this;
+	self.genres = ko.observableArray([]);
+
+	var chinookAPI = "/dmit2015-chinook-exercises-swu/rest/webapi/genres";
+	$.getJSON(chinookAPI, function(allData) {
+		var mappedGenres = $.map(allData, function(singleData) { return new Genre(singleData); });
+		self.genres(mappedGenres);
+	});
+	
+	self.editGenre = function(genre) {
+		var url = "editGenre.html?genreId=" + genre.genreId();
+		window.location.replace(url);
+	};
+}
+
+ko.applyBindings(new GenresViewModel());
+</script>
+
+</body>
+</html>

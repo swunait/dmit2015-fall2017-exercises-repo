@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+			  
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+<title>Chinook - Create New Genre</title>
+</head>
+<body>
+
+<div class="container">
+	<h2>Create New Genre</h2>
+	
+	<div id="editor" class="section panel panel-primary">
+        <div class="panel-heading">
+            Edit Genre
+        </div>
+
+        <div class="panel-body">
+            <div class="form-group">
+                <label>Genre Name</label>
+                <input class="form-control" data-bind="value: name" />
+            </div>
+            <button class="btn btn-primary" data-bind="click: createGenre">Save</button>
+            <button class="btn btn-default" onclick="handleCancelClick()" >Cancel</button>
+      </div>
+    </div>
+</div>
+
+<script>
+function handleCancelClick() {
+	window.location.href = "viewGenres.html";
+}
+
+function Genre(data) {
+	var self = this;
+	self.name = data.name;
+}
+
+function GenreViewModel() {
+	var self = this;
+	self.name = ko.observable("");
+	
+	self.createGenre = function() {		
+		var chinookAPI = "/dmit2015-chinook-exercises-swu/rest/webapi/genres";		
+		$.ajax(chinookAPI, {
+			data: ko.toJSON( { name: self.name() } ),
+			type: "POST",
+			contentType: "application/json",
+			success: function(result) { 
+				alert('Successfully created new genre'); 
+				self.name("");
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert('Error creating new genre');
+			}
+		});
+	}
+	
+}
+
+ko.applyBindings(new GenreViewModel());
+</script>
+
+</body>
+</html>
